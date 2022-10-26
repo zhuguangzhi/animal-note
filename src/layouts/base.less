@@ -1,0 +1,143 @@
+@import '~antd/dist/antd.css';
+
+html {
+  font-size: 6.25%;
+}
+
+body {
+  overflow: hidden !important;
+  position: relative;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.layout {
+  min-width: 1200px;
+  overflow-x: hidden;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (max-width: 1248px) {
+  .layout {
+    //width: 1200px;
+    min-width: 1200px;
+  }
+}
+
+.iconpark-icon {
+  width: 15px;
+  height: 15px;
+  font-weight: bold;
+  user-select: none;
+}
+
+//去除ant draw的内边距
+.ant-drawer-body {
+  padding: 0 !important;
+}
+
+//ant modal 关闭时会出现滚动条
+.ant-modal-wrap {
+  overflow: hidden !important;
+}
+
+// ant-popover 最大高度
+.ant-popover {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.ant-tree {
+  overflow: hidden;
+  background: none !important;
+  //ant tree标签背景色
+  .ant-tree-show-line .ant-tree-switcher {
+    background: none !important;
+  }
+
+  //自定义的图标
+  .ant-tree-node-content-wrapper {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    padding: 0 !important;
+    background: transparent !important;
+    width: 0%;
+    overflow: hidden;
+
+    .ant-tree-title {
+      display: inline-block;
+      flex: 1;
+      width: 0%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ant-tree-iconEle {
+      display: flex;
+      align-items: center;
+      width: 18px !important;
+      height: 18px !important;
+      padding: 0 !important;
+      margin-right: 10px !important;
+      font-size: 26px;
+    }
+  }
+
+  //ant tree 父组件展开时前面的箭头
+  .ant-tree-switcher {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 14px !important;
+    height: 14px;
+    margin: auto 6px;
+    border-radius: 4px;
+  }
+
+  .ant-tree-switcher:hover {
+    background-color: #ccc;
+  }
+
+  //下一级目录前的占位
+  .ant-tree-indent-unit {
+    width: 20px !important;
+  }
+
+  //选中时
+  .ant-tree-node-content-wrapper.ant-tree-node-selected {
+    background: none !important;
+    color: var(--SelectColor);
+  }
+
+  //当前整行
+  .ant-tree-treenode {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 6px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+  }
+
+  //选中时
+  .ant-tree-treenode-selected {
+    background-color: #eff4ff !important;
+    border-radius: 4px !important;
+  }
+
+  .ant-tree-treenode:hover {
+    background-color: #e4e6e7;
+    border-radius: 6px;
+  }
+}

@@ -1,0 +1,59 @@
+.Side {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+  overflow: hidden;
+  animation: SideEntry 0.4s;
+}
+
+.SideBar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 73rem;
+  height: 100%;
+  background-color: #f8f8f8;
+  padding: 32px 0;
+  box-sizing: border-box;
+
+  &Item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border: 3px solid #ebebeb;
+    border-radius: 30px;
+    background-color: #fff;
+    margin: 8px 0;
+    cursor: pointer;
+  }
+
+  &Item:nth-child(2) {
+    margin-top: 50px;
+  }
+
+  &Item:hover,
+  &ChoseBar {
+    background-color: #5995fd;
+    color: #fff;
+  }
+}
+
+.SideBarContainer {
+  width: var(--ContentWidth);
+  flex: 1;
+  //padding: 12px;
+  box-sizing: border-box;
+  box-shadow: -6px 0 16px -8px #00000014, -9px 0 28px #0000000d,
+    -12px 0 48px 16px #00000008;
+}
+
+@keyframes SideEntry {
+  0% {
+    transform: translateX(200px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}

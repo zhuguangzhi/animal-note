@@ -1,0 +1,54 @@
+.ant-popover-inner-content {
+  padding: 6px !important;
+}
+
+//popover菜单
+.popoverMenu {
+  //width: 140rem;
+  font-size: 14px;
+  color: #333;
+
+  &Item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 6px 18px;
+    cursor: pointer;
+    box-sizing: border-box;
+    border-radius: 8px;
+    user-select: none;
+
+    &Child {
+      margin-right: 24px;
+    }
+
+    &Icon {
+      width: 16px;
+      height: 16px;
+      margin-right: 6px;
+    }
+
+    //  右箭头
+    &Arrow {
+      position: absolute;
+      right: 12px;
+    }
+  }
+
+  &Item:hover {
+    background-color: #e4e6e7;
+  }
+}
+
+//popover移除三角形
+.ant-popover-arrow {
+  display: none !important;
+}
+
+.popover-item-select {
+  background-color: #bae7ff;
+}
+
+.popover-item-father {
+  background-color: #e5f7ff;
+}

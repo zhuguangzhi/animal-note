@@ -1,0 +1,110 @@
+.folderDetail {
+  height: 100vh;
+  overflow: hidden;
+  padding: 32px;
+  box-sizing: border-box;
+
+  &Title {
+    word-break: keep-all;
+    white-space: nowrap;
+    width: 100%;
+    height: 60px;
+
+    .iconMore {
+      width: 16px;
+      height: 16px;
+      margin: 0 6px;
+      cursor: pointer;
+    }
+  }
+
+  &Image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 220rem;
+    background-color: var(--Color_F567);
+    border-radius: 8px;
+  }
+
+  &Button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 40px;
+    margin: 16px 0;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    border: 1px #3370ff solid !important;
+    border-radius: 10px;
+    color: #3370ff;
+  }
+
+  &Info {
+    &Item {
+      margin: 12px 0;
+    }
+
+    p {
+      padding: 3px 0;
+    }
+  }
+}
+
+.folderDetailButton:hover {
+  background: #e1eaff;
+}
+
+.folderDetailButton:active {
+  background: #bacefd;
+}
+
+.folderDetail-entry {
+  width: 400rem;
+  animation: entry 0.3s;
+  visibility: visible;
+  padding: 32px;
+}
+
+.folderDetail-leave {
+  width: 0;
+  padding: 0;
+  visibility: hidden;
+  animation: leave 0.3s;
+}
+
+@keyframes entry {
+  0% {
+    padding: 0;
+    width: 0;
+    visibility: hidden;
+  }
+
+  100% {
+    padding: 32px;
+    width: 400rem;
+    visibility: visible;
+  }
+}
+
+@keyframes leave {
+  0% {
+    padding: 32px;
+    width: 400rem;
+    visibility: visible;
+  }
+
+  30% {
+    padding: 32px;
+    visibility: hidden;
+  }
+
+  100% {
+    padding: 0;
+    width: 0;
+    visibility: hidden;
+  }
+}

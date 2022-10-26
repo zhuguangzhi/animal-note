@@ -1,0 +1,60 @@
+.bookBox {
+  display: flex;
+  flex-direction: column;
+  min-width: 330rem;
+  width: 330rem;
+  height: 100%;
+  border-radius: 5px;
+  background-color: #f4f5f7;
+  padding: 12rem;
+  box-sizing: border-box;
+  margin-right: 16px;
+
+  &Header {
+    user-select: none;
+    cursor: pointer;
+    margin-bottom: 12px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
+
+.book {
+  width: 100%;
+  background-color: #fff;
+  padding: 22rem;
+  margin-bottom: 4px;
+  border-radius: 3px;
+  font-size: 16px;
+  cursor: pointer;
+
+  &:hover {
+    svg {
+      transition: 1.4s;
+      visibility: visible;
+    }
+  }
+
+  &Time {
+    font-size: 12px;
+    color: #999;
+  }
+
+  &Option {
+    svg {
+      margin: 0 4px;
+      cursor: pointer;
+      visibility: hidden;
+    }
+
+    svg:nth-child(1) {
+      visibility: visible;
+    }
+  }
+}
+
+.create {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

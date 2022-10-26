@@ -1,0 +1,47 @@
+.addNote {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.noteHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 80px;
+  font-size: 16px;
+  user-select: none;
+
+  &TitleDesc {
+    display: flex;
+    align-items: center;
+
+    span {
+      display: inline-block;
+      margin-right: 22px;
+      font-size: 14px;
+      color: #999;
+    }
+  }
+
+  &Area {
+    .icon {
+      display: inline-block;
+      margin: 0 8px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      padding: 6px;
+      border-radius: 17px;
+    }
+
+    .icon:hover {
+      border-color: #333;
+    }
+  }
+}

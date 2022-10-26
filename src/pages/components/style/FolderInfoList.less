@@ -1,0 +1,90 @@
+.folderInfo {
+  flex: 1;
+  overflow-x: hidden;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.list,
+.grid {
+  color: #666;
+  padding: 32px 16px;
+  flex: 1;
+
+  &Line {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    //border-bottom: var(--Border);
+    border-bottom: 1px solid #f5f6f7;
+    padding: 0 12px;
+    box-sizing: border-box;
+
+    &Item {
+      display: flex;
+      align-items: center;
+
+      .iconFont {
+        width: 24px;
+        height: 24px;
+        margin-right: 12px;
+        color: #333;
+      }
+
+      .icon {
+        display: inline-block;
+        margin-left: 6px;
+        width: 12px;
+        height: 12px;
+      }
+    }
+
+    &Info {
+      width: 120rem;
+    }
+  }
+}
+
+.listLine:hover {
+  background-color: #f5f6f7;
+}
+
+.listLine:first-child:hover {
+  background-color: transparent;
+}
+
+.gridBox:hover {
+  border: 1px solid #3370ff !important;
+}
+
+.grid {
+  .gridBox {
+    cursor: pointer;
+    display: flex;
+    width: 23%;
+    margin: 12px 1%;
+    height: 180rem;
+    flex-direction: column;
+    border: var(--Border);
+    border-radius: 8px;
+    overflow: hidden;
+
+    &Image {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--Color_F567);
+      border-bottom: var(--Border);
+    }
+
+    &Container {
+      align-items: center;
+      width: 100%;
+      height: 60px;
+      padding: 12px;
+      box-sizing: border-box;
+    }
+  }
+}
