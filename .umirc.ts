@@ -7,6 +7,7 @@ export default defineConfig({
   alias: {
     '@': resolve(__dirname, '/src'),
   },
+  dva: {},
   history: {
     type: 'hash',
   },

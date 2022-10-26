@@ -2,7 +2,6 @@ import { IconFont } from '@/components/IconFont';
 import { Popover, PopoverProps } from 'antd';
 import React from 'react';
 import './styles/popoverMenu.less';
-import { ModifyFileType } from '@/type/bookType';
 import { UseNode } from '@/components/UseNode';
 import { findKey } from '@/util';
 
@@ -11,7 +10,7 @@ export type MenuType = {
   key: string;
   icon?: string;
   children?: MenuType[];
-  type?: ModifyFileType['type']; //文件的类型
+  type?: 'Folder' | 'File' | 'Code'; //文件的类型
 };
 
 interface PopoverMenuType extends PopoverProps {

@@ -1,6 +1,5 @@
 import { DataNode } from 'antd/lib/tree';
 import * as React from 'react';
-import { FormInstance, ModalProps } from 'antd';
 import { codeType } from '@/common/config';
 
 //笔记类型
@@ -28,14 +27,6 @@ export interface BookType extends DataNode {
 export interface FolderSideType {
   list: BookType[];
   width: number; //类型rem 1rem=1px
-}
-
-// 新建、修改弹窗
-export interface ModifyFileType extends ModalProps {
-  id?: number; //需要修改的文件/夹id
-  key?: string; //需要修改的文件/夹key
-  form: FormInstance; //form表单
-  type: 'Folder' | 'File' | 'Code'; //文件夹|文件
 }
 
 //主要文件类型

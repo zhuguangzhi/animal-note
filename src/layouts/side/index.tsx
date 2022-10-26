@@ -1,36 +1,28 @@
 import { IconFont } from '@/components/IconFont';
 import style from './index.less';
 import { Outlet } from '@umijs/max';
-import React, { useState } from 'react';
-import { Form, Tooltip } from 'antd';
+import React from 'react';
+import { Tooltip } from 'antd';
 import router, { useGetUrlPath } from '@/hook/url';
 import { AniPopoverMenu, MenuType } from '@/components/AniPopoverMenu';
-import { ModifyFileType } from '@/type/bookType';
-import ModifyFolder from '@/pages/components/ModifyFile';
+import { connect, Dispatch } from 'umi';
+import { ConnectState } from '@/models/modelConnect';
 
 interface sideBarType {
   key: string;
   icon: string;
   desc: string;
-  type?: ModifyFileType['type']; //文件的类型
+  type?: MenuType['type']; //文件的类型
   menu?: MenuType[]; //子菜单弹出
 }
 
-export default () => {
+const SideBar = ({ dispatch }: { dispatch: Dispatch }) => {
   //获取当前路径
   const currentRootPath = useGetUrlPath()[1];
   const IconStyle: React.CSSProperties = {
     width: '22px',
     height: '22px',
   };
-
-  const [form] = Form.useForm();
-  //新增文件或文件夹
-  const [addFileInfo, setAddFileInfo] = useState({
-    type: 'Folder' as ModifyFileType['type'],
-    visible: false as boolean,
-    title: '' as string,
-  });
 
   //侧边按钮列表
   const SideBarList: sideBarType[] = [
@@ -97,20 +89,14 @@ export default () => {
     if (currentRootPath !== key) router.push(`/${key}`, params);
   };
   //新建的类型
-  const addType = (option: MenuType) => {
-    setAddFileInfo(() => ({
-      type: option.type as ModifyFileType['type'],
-      visible: true,
-      title: option.label,
-    }));
-  };
-  //新建
-  const addFile = async () => {
-    //校验失败会阻止向下运行
-    await form.validateFields();
-    console.log('9999999999');
-    // if (option.key !== "folder")
-    //     return changeBar('addNote', {type: option.key})
+  const openPopup = (option: MenuType) => {
+    dispatch({
+      type: 'editFilePopup/openPopup',
+      payload: {
+        title: option.label,
+        type: option.type,
+      },
+    });
   };
 
   //默认显示节点
@@ -135,7 +121,7 @@ export default () => {
         trigger={'click'}
         placement="rightTop"
         menuItems={bar.menu as MenuType[]}
-        onSelect={addType}
+        onSelect={openPopup}
       >
         <div
           className={`${style.SideBarItem} ${
@@ -170,17 +156,9 @@ export default () => {
       <div className={style.SideBarContainer}>
         <Outlet />
       </div>
-      {/*新建*/}
-      <ModifyFolder
-        title={addFileInfo.title}
-        form={form}
-        type={addFileInfo.type}
-        visible={addFileInfo.visible}
-        onCancel={() => {
-          setAddFileInfo({ ...addFileInfo, visible: false });
-        }}
-        onOk={addFile}
-      />
     </div>
   );
 };
+export default connect(({ editFilePopup }: ConnectState) => ({
+  editFilePopup,
+}))(SideBar);
