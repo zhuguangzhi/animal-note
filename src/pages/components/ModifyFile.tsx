@@ -5,7 +5,7 @@ import {
   CustomSelect,
   SelectChangeType,
 } from '@/components/CustomSelect';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect, Dispatch } from 'umi';
 import { ConnectState } from '@/models/modelConnect';
 import { editFileState } from '@/models/editFilePopup';
@@ -85,6 +85,10 @@ const Modify = ({
     //校验失败会阻止向下运行
     await form.validateFields();
   };
+  useEffect(() => {
+    //设置默认值
+    form.setFields(editFilePopup.fileDefaultValue);
+  }, [editFilePopup]);
   return (
     <Modal
       title={editFilePopup.title}
@@ -93,6 +97,8 @@ const Modify = ({
       onCancel={onClosePopup}
       forceRender={true}
       destroyOnClose={true}
+      cancelText={'取消'}
+      okText={'确定'}
     >
       <Form form={form} layout={'vertical'}>
         {editFilePopup.type === 'Code' ? <CodeComponent /> : <NameComponent />}

@@ -44,8 +44,10 @@ p {
 }
 
 //ant modal 关闭时会出现滚动条
-.ant-modal-wrap {
+.ant-modal-wrap,
+.ant-modal-mask {
   overflow: hidden !important;
+  z-index: 9999 !important;
 }
 
 // ant-popover 最大高度

@@ -8,10 +8,10 @@ import FolderDetail from '@/pages/components/FolderDetail';
 import { IconFont } from '@/components/IconFont';
 import { Tooltip } from 'antd';
 import DefaultData from '@/components/DefaultData';
-import { AniPopoverMenu, MenuType } from '@/components/AniPopoverMenu';
 import { isValidCode } from '@/common/commonFn';
+import MoreOperation from '@/pages/components/MoreOperation';
 
-export default () => {
+const FolderInfo = () => {
   //是否展开详情
   const [isExpand, setIsExpand] = useState(true);
   //表格还是列表
@@ -119,89 +119,7 @@ export default () => {
       </div>
     );
   };
-  //更多操作的选项
-  const menuItems = (type: BookType['type']) => {
-    return [
-      type === 'folder'
-        ? {
-            label: '新建',
-            key: 'add',
-            icon: 'addFolder',
-            children: [
-              {
-                label: '新建文件夹',
-                key: 'addFolder',
-                icon: 'addFolder',
-              },
-              {
-                label: '新建文本文件',
-                key: 'addText',
-                icon: 'text',
-              },
-              {
-                label: '新建Markdown文件',
-                key: 'addMd',
-                icon: 'md',
-              },
-              {
-                label: '新建代码文件',
-                key: 'addCode',
-                icon: 'code',
-              },
-            ],
-          }
-        : null,
 
-      {
-        label: '移动到',
-        key: 'moveFolder',
-        icon: 'moveFolder',
-      },
-      {
-        label: '标签',
-        key: 'moveSign',
-        icon: 'moveSign',
-      },
-      type === 'folder'
-        ? {
-            label: '删除文件夹',
-            key: 'delFolder',
-            icon: 'delFolder',
-          }
-        : {
-            label: '删除文件',
-            key: 'delFolder',
-            icon: 'delFolder',
-          },
-    ] as MenuType[];
-  };
-  //更多操作
-  const MoreBtn = ({ type }: { type: BookType['type'] }) => {
-    return (
-      <div
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-        className={`font_20 cursor flex flex_justify ${
-          isList ? 'listLineItem listLineInfo ' : ''
-        }`}
-      >
-        <AniPopoverMenu
-          placement={isList ? 'rightBottom' : 'left'}
-          menuItems={menuItems(type)}
-        >
-          <i>
-            <IconFont
-              width={'14px'}
-              height={'14px'}
-              className={'iconFont'}
-              icon={'gengduo'}
-            />
-          </i>
-        </AniPopoverMenu>
-      </div>
-    );
-  };
   //列表布局
   const FolderList = () => {
     return (
@@ -225,7 +143,12 @@ export default () => {
                 <div className={'font_14 listLineItem listLineInfo'}>
                   <span>{book.updateTime}</span>
                 </div>
-                <MoreBtn type={book.type} />
+                <MoreOperation
+                  fileKey={book.key}
+                  type={book.type}
+                  className={'listLineItem listLineInfo'}
+                  placement={'rightBottom'}
+                />
               </div>
             );
           })}
@@ -271,7 +194,11 @@ export default () => {
                       <p className={'font_12'}>最后更新于 {book.updateTime}</p>
                     </Tooltip>
                   </div>
-                  <MoreBtn type={book.type} />
+                  <MoreOperation
+                    fileKey={book.key}
+                    type={book.type}
+                    placement={'left'}
+                  />
                 </div>
               </div>
             );
@@ -301,3 +228,4 @@ export default () => {
     );
   }
 };
+export default FolderInfo;
