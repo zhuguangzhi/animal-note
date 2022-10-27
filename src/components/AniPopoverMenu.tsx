@@ -43,9 +43,12 @@ export const AniPopoverMenu = (props: PopoverMenuType) => {
 
     const selectMenu = (menu: MenuType) => {
       onSelect?.(menu);
+      // 关闭弹窗
       setOpenPopover({
         open: false,
       });
+      // 删除控制
+      setOpenPopover({});
     };
 
     const moreContent = () => {
