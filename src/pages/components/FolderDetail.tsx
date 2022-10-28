@@ -67,7 +67,7 @@ const FolderDetail = ({
           <MoreOperation
             trigger={'click'}
             className={'iconMore flex flex_align'}
-            fileKey={folderInfo.key}
+            fileInfo={folderInfo}
             type={folderInfo.type}
             placement={'bottomLeft'}
           />

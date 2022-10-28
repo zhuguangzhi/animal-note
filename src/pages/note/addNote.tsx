@@ -15,7 +15,7 @@ import { themOption } from '@/pages/note/components/CodeEditorOption';
 import { AniPopup } from '@/components/AniPopup';
 import { UseNode } from '@/components/UseNode';
 import { useSetState } from '@/util';
-import { MoveBook } from '@/components/MoveBook';
+import MoveBook from '@/components/MoveBook';
 
 const codeEditor = React.lazy(() => import('./components/CodeEditor'));
 const mdEditor = React.lazy(() => import('./components/MdEditor'));

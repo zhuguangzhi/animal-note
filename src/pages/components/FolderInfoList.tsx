@@ -144,7 +144,7 @@ const FolderInfo = () => {
                   <span>{book.updateTime}</span>
                 </div>
                 <MoreOperation
-                  fileKey={book.key}
+                  fileInfo={book}
                   type={book.type}
                   className={'listLineItem listLineInfo'}
                   placement={'rightBottom'}
@@ -164,7 +164,11 @@ const FolderInfo = () => {
         <div className={'flex'} style={{ width: '100%', flexWrap: 'wrap' }}>
           {bookData.map((book) => {
             return (
-              <div className={'flex gridBox'} key={book.key}>
+              <div
+                className={'flex gridBox'}
+                key={book.key}
+                onClick={() => entryBook(book)}
+              >
                 <div className={'gridBoxImage'}>
                   <IconFont
                     width={'60px'}
@@ -195,7 +199,7 @@ const FolderInfo = () => {
                     </Tooltip>
                   </div>
                   <MoreOperation
-                    fileKey={book.key}
+                    fileInfo={book}
                     type={book.type}
                     placement={'left'}
                   />

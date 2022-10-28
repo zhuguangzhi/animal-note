@@ -2,12 +2,14 @@
 import { BookType } from '@/type/bookType';
 import { AniPopoverMenu, MenuType } from '@/components/AniPopoverMenu';
 import { IconFont } from '@/components/IconFont';
-import React from 'react';
+import React, { useState } from 'react';
 import { TooltipPlacement } from 'antd/es/tooltip';
 import { connect, Dispatch } from 'umi';
+import MoveBook from '@/components/MoveBook';
+import AniPopup from '@/components/AniPopup';
 
 export type MoreOperationProps = {
-  fileKey: string; //操作的文件的key
+  fileInfo: BookType; //操作的文件的key
   className?: string;
   type: BookType['type']; //文件类型
   placement?: TooltipPlacement;
@@ -77,10 +79,13 @@ const MoreOperation = ({
   placement,
   trigger,
   dispatch,
+  fileInfo,
 }: MoreOperationProps) => {
+  const [openMoveFile, setOpenMoveFile] = useState(false);
+  const [openDeletePopup, setOpenDeletePopup] = useState(false);
+
   //更多操作事件
   const onSelectEvent = (e: MenuType) => {
-    console.log('e', e);
     switch (e.key) {
       case 'addFolder':
         openEditPopup('Folder', e.label);
@@ -93,6 +98,12 @@ const MoreOperation = ({
         break;
       case 'addCode':
         openEditPopup('Code', e.label);
+        break;
+      case 'moveFolder':
+        setOpenMoveFile(true);
+        break;
+      case 'delFolder':
+        setOpenDeletePopup(true);
         break;
     }
   };
@@ -128,6 +139,21 @@ const MoreOperation = ({
           />
         </i>
       </AniPopoverMenu>
+      {/*    移动文件*/}
+      <MoveBook
+        bookInfo={fileInfo}
+        open={openMoveFile}
+        closeMove={() => setOpenMoveFile(false)}
+      />
+      {/*删除*/}
+      <AniPopup
+        onClose={() => setOpenDeletePopup(false)}
+        title={`是否删除 ${fileInfo.title}`}
+        open={openDeletePopup}
+        showClose={true}
+      >
+        <p>删除后30天内可在回收站中找回哦！</p>
+      </AniPopup>
     </div>
   );
 };
