@@ -62,11 +62,11 @@ const SideBar = ({ dispatch }: { dispatch: Dispatch }) => {
         },
       ],
     },
-    // {
-    //     key: 2,
-    //     icon: "search",
-    //     desc: "搜索"
-    // },
+    {
+      key: 'search',
+      icon: 'search',
+      desc: '搜索',
+    },
     {
       key: 'noteBook',
       icon: 'notes',

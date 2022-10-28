@@ -7,78 +7,35 @@ import { useEntryBook } from '@/pages/components/util/folder';
 import FolderDetail from '@/pages/components/FolderDetail';
 import { IconFont } from '@/components/IconFont';
 import { Tooltip } from 'antd';
-import DefaultData from '@/components/DefaultData';
+import DefaultData, { EmptyDataType } from '@/components/DefaultData';
 import { isValidCode } from '@/common/commonFn';
 import MoreOperation from '@/pages/components/MoreOperation';
+import { UseNode } from '@/components/UseNode';
+import { useMounted } from '@/hook';
 
-const FolderInfo = () => {
+type FolderInfoProps = {
+  list: BookType[];
+  fatherInfo: BookType | null; //父文件夹的信息
+};
+const FolderInfo = ({
+  list,
+  fatherInfo,
+  emptyType = 'noFile',
+}: FolderInfoProps & { emptyType?: EmptyDataType }) => {
   //是否展开详情
   const [isExpand, setIsExpand] = useState(true);
   //表格还是列表
   const [isList, setIsList] = useState(true);
   //获取路由参数 通过bookid获取文件夹中的内容
   const [bookId] = useSearchParam([keyConfig.bookIdKey]);
-  const [bookData] = useState<BookType[]>([
-    {
-      id: 1,
-      key: '10',
-      title: '测试文件夹',
-      type: 'folder',
-      desc: '我是测试',
-      updateTime: '昨天 14：07',
-      isCollect: false,
-    },
-    {
-      id: 2,
-      key: '122',
-      title: '测试文件夹',
-      type: 'js',
-      desc: '我是测试',
-      updateTime: '昨天 14：07',
-      isCollect: true,
-    },
-    {
-      id: 3,
-      key: '11',
-      title: '测试文件夹',
-      type: 'text',
-      desc: '我是测试',
-      updateTime: '昨天 14：07',
-      isCollect: true,
-    },
-    {
-      id: 4,
-      key: '101',
-      title: '12',
-      type: 'html',
-      updateTime: '昨天 14：07',
-      isCollect: true,
-    },
-    {
-      id: 5,
-      key: '1100',
-      title: '123',
-      type: 'json',
-      updateTime: '昨天 14：07',
-      isCollect: true,
-    },
-    {
-      id: 6,
-      key: '0311',
-      title: '564',
-      type: 'md',
-      updateTime: '昨天 14：07',
-      isCollect: true,
-    },
-    {
-      id: 7,
-      key: '112',
-      title: '98',
-      type: 'ts',
-      updateTime: '昨天 14：07',
-      isCollect: true,
-    },
-  ]);
+  const [noteInfo] = useState<FolderInfoProps>({
+    list: [...list],
+    fatherInfo: fatherInfo ? { ...fatherInfo } : null,
+  });
+
+  useMounted(() => {
+    console.log('笔记key值', bookId);
+  });
   const entryBook = useEntryBook();
 
   //信息头
@@ -107,14 +64,20 @@ const FolderInfo = () => {
             icon={isList ? 'icon-test' : 'liebiao'}
             onClick={() => setIsList((val) => !val)}
           />
-          <IconFont
-            onClick={() => setIsExpand((val) => !val)}
-            className={`cursor ${isExpand ? 'rotate_normal' : 'rotate_180'}`}
-            width={'18px'}
-            height={'18px'}
-            marginLeft={'12px'}
-            icon={'jiantouyou'}
-          />
+          <UseNode rIf={!!noteInfo.fatherInfo}>
+            <span>
+              <IconFont
+                onClick={() => setIsExpand((val) => !val)}
+                className={`cursor ${
+                  isExpand ? 'rotate_normal' : 'rotate_180'
+                }`}
+                width={'18px'}
+                height={'18px'}
+                marginLeft={'12px'}
+                icon={'jiantouyou'}
+              />
+            </span>
+          </UseNode>
         </div>
       </div>
     );
@@ -126,7 +89,7 @@ const FolderInfo = () => {
       <div className={'list'}>
         <Header />
         <>
-          {bookData.map((book) => {
+          {noteInfo.list.map((book) => {
             return (
               <div
                 className={'listLine cursor flex flex_align'}
@@ -162,10 +125,12 @@ const FolderInfo = () => {
       <div className={'grid'}>
         <Header />
         <div className={'flex'} style={{ width: '100%', flexWrap: 'wrap' }}>
-          {bookData.map((book) => {
+          {noteInfo.list.map((book) => {
             return (
               <div
                 className={'flex gridBox'}
+                // style={{ width: isExpand && !!noteInfo.fatherInfo? "23%" : "17%"}}
+                style={{ width: '215px' }}
                 key={book.key}
                 onClick={() => entryBook(book)}
               >
@@ -213,13 +178,12 @@ const FolderInfo = () => {
   };
 
   {
-    if (!bookId[keyConfig.bookIdKey]) return <></>;
     return (
       <div className={'flex folderInfo'}>
         {
           //无数据
-          bookData.length === 0 ? (
-            <DefaultData type={'noFile'} />
+          noteInfo.list.length === 0 ? (
+            <DefaultData type={emptyType} />
           ) : //布局
           isList ? (
             <FolderList />
@@ -227,7 +191,9 @@ const FolderInfo = () => {
             <FolderGrid />
           )
         }
-        <FolderDetail isExpand={isExpand} />
+        <UseNode rIf={!!noteInfo.fatherInfo}>
+          <FolderDetail isExpand={isExpand} />
+        </UseNode>
       </div>
     );
   }

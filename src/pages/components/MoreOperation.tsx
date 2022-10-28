@@ -148,11 +148,15 @@ const MoreOperation = ({
       {/*删除*/}
       <AniPopup
         onClose={() => setOpenDeletePopup(false)}
-        title={`是否删除 ${fileInfo.title}`}
+        title={`是否删除 "${fileInfo.title}"`}
         open={openDeletePopup}
         showClose={true}
       >
-        <p>删除后30天内可在回收站中找回哦！</p>
+        {fileInfo.type === 'folder' ? (
+          <p>删除的文件夹及其全部内容将进入回收站，30 天后自动彻底删除。</p>
+        ) : (
+          <p>删除后30天内可在回收站中找回哦！</p>
+        )}
       </AniPopup>
     </div>
   );

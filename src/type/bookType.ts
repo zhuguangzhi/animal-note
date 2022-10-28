@@ -7,6 +7,7 @@ export type noteInfoProps = {
   id: number;
   key: string;
   title: string;
+  type: codeType;
 };
 
 export interface BookType extends DataNode {
@@ -21,12 +22,6 @@ export interface BookType extends DataNode {
   children?: BookType[]; //子文件
   createTime?: string;
   updateTime?: string;
-}
-
-//文件夹侧边栏
-export interface FolderSideType {
-  list: BookType[];
-  width: number; //类型rem 1rem=1px
 }
 
 //主要文件类型

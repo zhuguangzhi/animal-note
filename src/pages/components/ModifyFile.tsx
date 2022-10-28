@@ -41,7 +41,7 @@ const CodeComponent = () => {
     <Form.Item label={'名称'}>
       <div className={'flex'} style={{ width: '100%' }}>
         <Form.Item
-          name="name"
+          name="title"
           rules={[{ required: true, message: '请输入名称' }]}
           style={{ display: 'inline-block', flex: 1 }}
         >
@@ -76,6 +76,7 @@ const Modify = ({
 }) => {
   const [form] = Form.useForm();
   const onClosePopup = () => {
+    form.resetFields();
     dispatch({
       type: 'editFilePopup/closePopup',
     });

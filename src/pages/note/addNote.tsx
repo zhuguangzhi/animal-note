@@ -14,8 +14,10 @@ import { AniPopoverMenu, MenuType } from '@/components/AniPopoverMenu';
 import { themOption } from '@/pages/note/components/CodeEditorOption';
 import { AniPopup } from '@/components/AniPopup';
 import { UseNode } from '@/components/UseNode';
-import { useSetState } from '@/util';
+import { translateCode, useSetState } from '@/util';
 import MoveBook from '@/components/MoveBook';
+import { connect, Dispatch } from 'umi';
+import { OpenFolder } from '@/components/OpenFolder';
 
 const codeEditor = React.lazy(() => import('./components/CodeEditor'));
 const mdEditor = React.lazy(() => import('./components/MdEditor'));
@@ -25,18 +27,23 @@ interface NodeInfoType extends noteInfoProps {
   noteBookInfo: BookType;
 }
 
-type changePopupType = 'delete' | 'moveFile' | 'moveSign';
+type changePopupType =
+  | 'openDeletePopup'
+  | 'moveFilePopup'
+  | 'moveSignType'
+  | 'openFilePopup';
 
-export default () => {
-  const { nodeIdKey, nodeTypeKey } = keyConfig;
+const AddNote = ({ dispatch }: { dispatch: Dispatch }) => {
+  const { nodeIdKey } = keyConfig;
   // nodeType 笔记类型 传给编辑器让他们选择语言
-  const [{ nodeId, nodeType }] = useSearchParam([nodeIdKey, nodeTypeKey]);
-  console.log('nodeId', nodeId);
+  const [nodeInfo] = useSearchParam([nodeIdKey]);
+  console.log('nodeId', nodeInfo[nodeIdKey]);
   const [state, setState] = useState({
     noteInfo: {
       id: 1,
-      title: '软件工程.html',
-      key: '11',
+      title: '软件工程',
+      key: '122',
+      type: 'ts',
       noteBookInfo: {
         id: 1,
         title: '测试文件夹',
@@ -47,6 +54,7 @@ export default () => {
     openDeletePopup: false, // 打开删除提示
     moveFilePopup: false, //移动文件弹窗
     moveSignType: false, //移动标签弹窗
+    openFilePopup: false, //打开其他文件
     codeOption: {
       isFullScreen: false,
       theme: 'ayu-dark',
@@ -76,15 +84,9 @@ export default () => {
     message.success('保存成功');
   };
   //关闭\开启确认弹窗
-  const changePopup = (type: changePopupType = 'delete') => {
-    const btnType =
-      type === 'delete'
-        ? 'openDeletePopup'
-        : type === 'moveFile'
-        ? 'moveFilePopup'
-        : 'moveSignType';
+  const changePopup = (type: changePopupType = 'openDeletePopup') => {
     changeState({
-      [btnType]: !state[btnType],
+      [type]: !state[type],
     });
   };
   const EditorComponent = useMemo(() => {
@@ -94,28 +96,71 @@ export default () => {
       ? mdEditor
       : textEditor;
   }, [state.editorType]);
+  //修改文件名和类型
+  const editFileTitle = () => {
+    const res = translateCode(state.noteInfo.type);
+    dispatch({
+      type: 'editFilePopup/openPopup',
+      payload: {
+        fileKey: state.noteInfo.key,
+        title: '修改' + res.desc,
+        type: res.type,
+        fileDefaultValue: [
+          { name: 'title', value: state.noteInfo.title },
+          { name: 'codeType', value: state.noteInfo.type },
+        ],
+      },
+    });
+  };
+
+  // 修改当前所在文件夹的信息
+  const editFolderInfo = () => {
+    dispatch({
+      type: 'editFilePopup/openPopup',
+      payload: {
+        fileKey: state.noteInfo.noteBookInfo.key,
+        title: '修改文件夹',
+        type: 'Folder',
+        fileDefaultValue: [
+          { name: 'title', value: state.noteInfo.noteBookInfo.title },
+          { name: 'desc', value: state.noteInfo.noteBookInfo.desc },
+        ],
+      },
+    });
+  };
 
   useEffect(() => {
     //是否是code文件
-    if (mainFileList.includes(nodeType))
-      changeState({ editorType: nodeType as Partial<MainFileType> });
+    if (mainFileList.includes(state.noteInfo.type))
+      changeState({ editorType: state.noteInfo.type as Partial<MainFileType> });
     else changeState({ editorType: 'code' });
-  }, [nodeType]);
+  }, [state.noteInfo.type]);
 
   return (
     <div className={'animate__animated animate__fadeIn addNote'}>
       <div className={'noteHeader'}>
         <div className={'noteHeaderTitle'}>
-          <span className={'font_18 cursor'}>{state.noteInfo.title}</span>
+          <span className={'font_18 cursor'} onClick={editFileTitle}>
+            {state.noteInfo.title + '.' + state.noteInfo.type}
+          </span>
           <div className={'noteHeaderTitleDesc'}>
             <IconFont
+              onClick={() => changePopup('openFilePopup')}
+              className={'cursor'}
               marginRight={'6px'}
               width={'16px'}
               height={'16px'}
               icon={'folder'}
             />
-            <span>{state.noteInfo.noteBookInfo.title}</span>
-            <span>{state.noteInfo.noteBookInfo.desc}</span>
+            <span
+              onClick={() => changePopup('openFilePopup')}
+              className={'cursor'}
+            >
+              {state.noteInfo.noteBookInfo.title}
+            </span>
+            <span onClick={editFolderInfo}>
+              {state.noteInfo.noteBookInfo.desc}
+            </span>
           </div>
         </div>
         {/*功能区*/}
@@ -133,7 +178,7 @@ export default () => {
             </AniPopoverMenu>
           </UseNode>
           <Tooltip placement="bottom" title={'移动到'}>
-            <i onClick={() => changePopup('moveFile')}>
+            <i onClick={() => changePopup('moveFilePopup')}>
               <IconFont className={'icon'} icon={'21move'} />
             </i>
           </Tooltip>
@@ -165,7 +210,7 @@ export default () => {
       {/*删除*/}
       <AniPopup
         onClose={() => changePopup()}
-        title={`是否删除 ${state.noteInfo.title}`}
+        title={`是否删除 "${state.noteInfo.title}"`}
         open={state.openDeletePopup}
         showClose={true}
       >
@@ -175,8 +220,15 @@ export default () => {
       <MoveBook
         bookInfo={state.noteInfo}
         open={state.moveFilePopup}
-        closeMove={() => changePopup('moveFile')}
+        closeMove={() => changePopup('moveFilePopup')}
+      />
+      {/*  打开另一个笔记*/}
+      <OpenFolder
+        bookInfo={state.noteInfo}
+        open={state.openFilePopup}
+        closeMove={() => changePopup('openFilePopup')}
       />
     </div>
   );
 };
+export default connect()(AddNote);

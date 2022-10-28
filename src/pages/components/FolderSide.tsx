@@ -1,4 +1,4 @@
-import { BookType, FolderSideType } from '@/type/bookType';
+import { BookType } from '@/type/bookType';
 import './style/FolderSide.less';
 import { TreeProps } from 'antd';
 import { useMounted } from '@/hook';
@@ -12,9 +12,9 @@ import { isValidCode } from '@/common/commonFn';
 import { BookTree } from '@/components/BookTree';
 import { UseNode } from '@/components/UseNode';
 
-export default ({ width, list }: FolderSideType) => {
+export default ({ width, list }: { width: number; list: BookType[] }) => {
   const { bookIdKey } = keyConfig;
-  const [bookKey, setUrlParam] = useSearchParam([bookIdKey]);
+  const [bookKey] = useSearchParam([bookIdKey]);
   //默认选中的节点
   let [treeDefaultKey, setTreeDefaultKey] = useState<string[]>([]);
   useEffect(() => {
@@ -29,10 +29,8 @@ export default ({ width, list }: FolderSideType) => {
         if (item.children) setIcon(item.children);
       });
     })(list);
-    //当没有指定文件夹时默认打开第一个文件夹
-    if (!bookKey[bookIdKey]) {
-      setUrlParam({ [bookIdKey]: list[0]['key'] });
-    }
+    //  没有值时默认选中第一个
+    if (!bookKey[bookIdKey]) setTreeDefaultKey([list[0].key]);
   });
 
   const entryBook = useEntryBook();

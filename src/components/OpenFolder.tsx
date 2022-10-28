@@ -1,18 +1,15 @@
-import { AniPopup } from '@/components/AniPopup';
+import { MoveBookProps } from '@/components/MoveBook';
 import React, { useCallback, useState } from 'react';
 import { BookTree, SelectKeys, SelectOptionProps } from '@/components/BookTree';
-import { BookType, noteInfoProps } from '@/type/bookType';
 import { AniSearch } from '@/components/AniSearch';
-import { connect, Dispatch } from 'umi';
+import AniPopup from '@/components/AniPopup';
+import { BookType } from '@/type/bookType';
 
-export type MoveBookProps = {
-  bookInfo: Partial<noteInfoProps>;
-  open: boolean;
-  closeMove: () => void;
-  dispatch: Dispatch;
-};
-
-const MoveBook = ({ bookInfo, open, closeMove, dispatch }: MoveBookProps) => {
+export const OpenFolder = ({
+  bookInfo,
+  open,
+  closeMove,
+}: Omit<MoveBookProps, 'dispatch'>) => {
   const [list] = useState<BookType[]>([
     {
       id: 1,
@@ -74,29 +71,19 @@ const MoveBook = ({ bookInfo, open, closeMove, dispatch }: MoveBookProps) => {
     },
     [],
   );
-  //新建文件夹
-  const addFolder = () => {
-    dispatch({
-      type: 'editFilePopup/openPopup',
-      payload: {
-        title: `新增到 ${
-          currentFileInfo ? '"' + currentFileInfo.title + '"' : '根目录'
-        }`,
-        type: 'Folder',
-      },
-    });
+  //打开文件
+  const openFile = () => {
+    console.log(currentFileInfo, bookInfo);
   };
   return (
     <AniPopup
       width={'520px'}
       onClose={closeMove}
-      isDanger={false}
-      title={`将 “${bookInfo.title}” 移动到...`}
-      leftBtn={'新建文件夹'}
-      onLeftEvent={addFolder}
+      title={`打开笔记`}
       open={open}
-      okBtnName={'移动'}
+      okBtnName={'打开'}
       showClose={true}
+      onOk={openFile}
     >
       <AniSearch />
       <div
@@ -109,9 +96,15 @@ const MoveBook = ({ bookInfo, open, closeMove, dispatch }: MoveBookProps) => {
           overflowY: 'auto',
         }}
       >
-        <BookTree list={list} onSelect={onSelectFile} />
+        <BookTree
+          list={list}
+          onSelect={onSelectFile}
+          autoExpandParent={true}
+          defaultExpandParent={true}
+          defaultSelectedKeys={[bookInfo.key || '']}
+          defaultExpandedKeys={[bookInfo.key || '']}
+        />
       </div>
     </AniPopup>
   );
 };
-export default connect()(MoveBook);

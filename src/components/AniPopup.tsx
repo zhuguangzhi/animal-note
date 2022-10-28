@@ -20,6 +20,7 @@ export type PopupProps = {
   onLeftEvent?: () => void;
   useCancelBtn?: boolean; //是否展示取消按钮
   width?: string; //宽度
+  disabled?: boolean; // okBtn是否禁用
 };
 export const AniPopup = (props: PopupProps) => {
   const Container: (props: PopupProps) => ReactElement = useCallback(
@@ -70,6 +71,7 @@ export const AniPopup = (props: PopupProps) => {
                   style={{ marginLeft: '12px' }}
                   type={'primary'}
                   danger={isDanger}
+                  disabled={props.disabled}
                 >
                   {props.okBtnName || '确定'}
                 </Button>

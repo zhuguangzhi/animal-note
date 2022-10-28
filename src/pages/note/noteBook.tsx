@@ -1,12 +1,20 @@
 import FolderSide from '@/pages/components/FolderSide';
 import React, { useState } from 'react';
-import { FolderSideType } from '@/type/bookType';
 import FolderInfoList from '@/pages/components/FolderInfoList';
 import './style/noteBook.less';
+import { BookType } from '@/type/bookType';
 
 const NoteBook = () => {
-  const [FolderList] = useState<FolderSideType>({
-    width: 200,
+  const [folderList] = useState({
+    fatherInfo: {
+      type: 'folder',
+      title: '测试文件夹',
+      id: 1,
+      key: '1',
+      desc: '测试文件夹',
+      isCollect: true,
+      createTime: '昨天 12:08',
+    } as BookType | null,
     list: [
       {
         id: 1,
@@ -52,15 +60,17 @@ const NoteBook = () => {
           },
         ],
       },
-    ],
+    ] as BookType[],
   });
   return (
     <div
       className={'flex align_start noteBook animate__animated animate__fadeIn'}
-      style={{ height: '100%', width: '100%' }}
     >
-      <FolderSide {...FolderList} />
-      <FolderInfoList />
+      <FolderSide width={200} list={folderList.list} />
+      <FolderInfoList
+        list={folderList.list[0].children || []}
+        fatherInfo={folderList.fatherInfo}
+      />
     </div>
   );
 };
