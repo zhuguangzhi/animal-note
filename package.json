@@ -22,7 +22,6 @@
     "codemirror": "^5.65.9",
     "qs": "^6.11.0",
     "re-resizable": "^6.9.9",
-    "react-beautiful-dnd": "^13.1.0",
     "react-codemirror2": "^7.2.1",
     "tinymce": "^6.2.0",
     "vditor": "^3.8.17"

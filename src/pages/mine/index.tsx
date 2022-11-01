@@ -1,39 +1,30 @@
-import BaseConfig from '@/util/BaseConfig';
-import { NoteBook } from './NoteBook';
-import style from './style/index.less';
-import { Input, Select } from 'antd';
-import { DefaultOptionType } from 'antd/lib/select';
+import './style/index.less';
+import '@/components/styles/popoverMenu.less';
+import { IconFont } from '@/components/IconFont';
+import router from '@/hook/url';
 
 export default () => {
-  const SelectOptions: DefaultOptionType[] = [
-    {
-      value: 0,
-      label: 'animal note',
-    },
-  ];
+  //侧边栏列表
+  // const sideList:MenuType[] = [
+  //     {key:"accountSafe",label:"账号与安全",icon:""}
+  // ]
+
+  const Side = () => {
+    return <div className={'side popoverMenu'}></div>;
+  };
   return (
-    <div className={`${style.container} animate animate__fadeInLeftBig`}>
-      <span style={{ fontSize: '20px', fontWeight: 'bold' }}>
-        {BaseConfig.NodeName}
-      </span>
-      <div className={'f_a_c'}>
-        <Input
-          style={{ width: '300rem', margin: '20px 20px 20px 0' }}
-          size={'middle'}
-          placeholder={'笔记名'}
+    <div className={'mine animate__animated animate__fadeIn'}>
+      {/*    头部*/}
+      <div className={'header'}>
+        <span className={'font_18'}>个人中心</span>
+        <IconFont
+          onClick={() => router.back()}
+          className={'cursor'}
+          icon={'cha'}
         />
-        <Select value={0} options={SelectOptions} />
       </div>
-      <div className={style.noteBookList}>
-        <NoteBook />
-        <NoteBook />
-        <NoteBook />
-        <NoteBook />
-        <NoteBook />
-        <NoteBook />
-        <NoteBook />
-        <NoteBook />
-      </div>
+      {/*    侧边栏*/}
+      <Side />
     </div>
   );
 };

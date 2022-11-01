@@ -18,7 +18,7 @@ export interface BookType extends DataNode {
   desc?: string; //描述
   type: codeType; //文件类型
   isCollect: boolean; //是否收藏
-  signInfo?: {}; //标签信息
+  tagInfo?: {}; //标签信息
   children?: BookType[]; //子文件
   createTime?: string;
   updateTime?: string;

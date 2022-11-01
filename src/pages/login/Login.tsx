@@ -7,7 +7,7 @@ import { history } from 'umi';
 export const LoginComponent = () => {
   const onLogin = (e: LoginPostProps) => {
     console.log('e', e);
-    history.push('/index');
+    history.push('/noteBook');
   };
   return (
     <Form onFinish={onLogin} className="form sign-in-form">

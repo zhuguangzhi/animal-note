@@ -101,8 +101,8 @@ export const OpenFolder = ({
           onSelect={onSelectFile}
           autoExpandParent={true}
           defaultExpandParent={true}
-          defaultSelectedKeys={[bookInfo.key || '']}
-          defaultExpandedKeys={[bookInfo.key || '']}
+          defaultSelectedKeys={[bookInfo?.key || '']}
+          defaultExpandedKeys={[bookInfo?.key || '']}
         />
       </div>
     </AniPopup>

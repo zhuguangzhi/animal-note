@@ -6,7 +6,7 @@ import { AniSearch } from '@/components/AniSearch';
 import { connect, Dispatch } from 'umi';
 
 export type MoveBookProps = {
-  bookInfo: Partial<noteInfoProps>;
+  bookInfo?: Partial<noteInfoProps>;
   open: boolean;
   closeMove: () => void;
   dispatch: Dispatch;
@@ -91,7 +91,7 @@ const MoveBook = ({ bookInfo, open, closeMove, dispatch }: MoveBookProps) => {
       width={'520px'}
       onClose={closeMove}
       isDanger={false}
-      title={`将 “${bookInfo.title}” 移动到...`}
+      title={`将 “${bookInfo?.title}” 移动到...`}
       leftBtn={'新建文件夹'}
       onLeftEvent={addFolder}
       open={open}

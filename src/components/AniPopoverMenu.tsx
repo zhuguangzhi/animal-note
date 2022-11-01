@@ -18,6 +18,7 @@ interface PopoverMenuType extends PopoverProps {
   menuItems: MenuType[];
   defaultSelect?: MenuType['key'];
   onSelect?: (param: MenuType) => void;
+  autoMenu?: React.ReactElement | null;
 }
 
 // 多级菜单
@@ -28,6 +29,7 @@ export const AniPopoverMenu = (props: PopoverMenuType) => {
     menuItems,
     onSelect,
     children,
+    autoMenu,
     defaultSelect,
     ...props
   }: PopoverMenuType) => {
@@ -52,7 +54,9 @@ export const AniPopoverMenu = (props: PopoverMenuType) => {
     };
 
     const moreContent = () => {
-      return (
+      return autoMenu ? (
+        autoMenu
+      ) : (
         <div className={'popoverMenu'}>
           {menuItems.map((menu) => {
             if (!menu) return false;

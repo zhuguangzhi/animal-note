@@ -1,12 +1,13 @@
 import { IconFont } from '@/components/IconFont';
 import style from './index.less';
 import { Outlet } from '@umijs/max';
-import React from 'react';
+import React, { useState } from 'react';
 import { Tooltip } from 'antd';
 import router, { useGetUrlPath } from '@/hook/url';
 import { AniPopoverMenu, MenuType } from '@/components/AniPopoverMenu';
 import { connect, Dispatch } from 'umi';
 import { ConnectState } from '@/models/modelConnect';
+import { OpenFolder } from '@/components/OpenFolder';
 
 interface sideBarType {
   key: string;
@@ -19,6 +20,8 @@ interface sideBarType {
 const SideBar = ({ dispatch }: { dispatch: Dispatch }) => {
   //获取当前路径
   const currentRootPath = useGetUrlPath()[1];
+  //打开搜索
+  const [openSearch, setOpenSearch] = useState(false);
   const IconStyle: React.CSSProperties = {
     width: '22px',
     height: '22px',
@@ -85,7 +88,10 @@ const SideBar = ({ dispatch }: { dispatch: Dispatch }) => {
   ];
   //路由跳转
   const changeBar = (key: string, params = {}) => {
-    // coverParams({[keyConfig.sideTypeKey]: key})
+    if (key === 'search') {
+      setOpenSearch(true);
+      return false;
+    }
     if (currentRootPath !== key) router.push(`/${key}`, params);
   };
   //新建的类型
@@ -156,6 +162,8 @@ const SideBar = ({ dispatch }: { dispatch: Dispatch }) => {
       <div className={style.SideBarContainer}>
         <Outlet />
       </div>
+      {/*  搜索*/}
+      <OpenFolder open={openSearch} closeMove={() => setOpenSearch(false)} />
     </div>
   );
 };
